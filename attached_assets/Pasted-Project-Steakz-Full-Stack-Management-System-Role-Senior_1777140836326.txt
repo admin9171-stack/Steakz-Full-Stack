@@ -1,0 +1,68 @@
+Project: "Steakz" Full-Stack Management System
+Role: Senior Full-Stack Developer & UI Designer.
+Objective: Build a web application named "Steakz" that replicates the specific UI/UX, color palette, and data structure shown in the provided screenshots.
+
+1. Visual Style & Color Architecture
+Strictly implement the following color tokens and design rules:
+
+Landing/Login Background: Use a high-quality, blurred image of a cooked steak.
+
+Primary Brand Green: #2d5a43 (Used for full-page backgrounds and headers).
+
+The "Olive" Module: #8b864e (Used for the Login card and Dashboard buttons).
+
+The "Orange" Module: #f3a660 (Used for the 'Previous Orders' button).
+
+The "Mint" Module: #12e06d (Used for 'Profile' and 'Add Employee').
+
+Analytics Background: #1a2a44 (Deep navy blue for the dashboard charts).
+
+Typography: White Serif font for the "Steakz" brand; clean Sans-serif for all form labels and data.
+
+2. Feature Specifications
+Module A: Authentication (The Login Page)
+UI: A centered #8b864e box over a steak image background.
+
+Inputs: Stark white boxes for "Email address" and "Password."
+
+Elements: Include a "Check me out" checkbox and a green "Log In" button.
+
+Module B: Customer Ordering System (Live Form)
+Logic: Build a form on a #2d5a43 background.
+
+Fields: Customer Name, Phone Number.
+
+Menu Items: * Steak: (Strip, T-bone, Filet, RibEye)
+
+Sub: (Fries, Salad, Grilled Potatoes)
+
+Drinks: (Soda, Water)
+
+Dynamic Calculation: The "Sub Total $ [Value]" must update in real-time as quantities or items are changed.
+
+Action: A "Confirm Order" button that saves data to a local state or database.
+
+Module C: Admin & Order Management
+Table View: A "Previous Orders" list with columns: Order Number (001, 002...), Name, Phone, Steak, Qty, Sub, Qty, Drinks, Qty, Total.
+
+Navigation: Use the colored square-button layout (Add Employee, Delete, Previous Orders, Dashboard) as seen in the references.
+
+Module D: Data Analytics (The Dashboard)
+Container: A full-width Navy (#1a2a44) section.
+
+Visuals: * Pie Chart 1: "Customer Preference on Steak type" (T-bone, RibEye, Filet, Strip, Sirloin, Porterhouse).
+
+Pie Chart 2: "Preferred Sub Dish" (Salad, Grilled Potatoes, Fries).
+
+Bar Chart: "Monthly Income by Stores" (Store 1 to Store 7).
+
+Ranking Table: "Top 5 Employee Ratings" showing ID, Name, and Service Points.
+
+3. Technical Requirements
+Framework: Use React or Vanilla JS/Tailwind.
+
+Responsiveness: Ensure the dashboard is mobile-friendly (grid layout).
+
+Mock Data: Pre-populate the "Previous Orders" and "Employee Ratings" with the data visible in the screenshots (e.g., Jhon, Martin, Priyanka).
+
+Interactivity: Clicking "New Order" should switch the view to the order form; "Dashboard" should switch to analytics.

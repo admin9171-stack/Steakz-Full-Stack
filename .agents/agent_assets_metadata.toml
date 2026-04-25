@@ -1,0 +1,8 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "pnDQh9zxTSV_vupS7Fk13"
+uri = "file://artifacts/steakz/public/steak-bg.png"
+type = "image"
+title = "steak background"
