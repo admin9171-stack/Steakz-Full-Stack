@@ -33,7 +33,7 @@ export default function LoginPage() {
             Log In
           </h2>
 
-          <label className="block text-white text-lg mb-2">Email address</label>
+          <label className="block text-white text-lg mb-2" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: "italic", fontWeight: 700 }}>Email address</label>
           <input
             type="email"
             value={email}
@@ -42,7 +42,7 @@ export default function LoginPage() {
             required
           />
 
-          <label className="block text-white text-lg mb-2">Password</label>
+          <label className="block text-white text-lg mb-2" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: "italic", fontWeight: 700 }}>Password</label>
           <input
             type="password"
             value={password}
