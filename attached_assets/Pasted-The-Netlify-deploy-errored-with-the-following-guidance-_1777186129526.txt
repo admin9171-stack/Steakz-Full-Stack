@@ -1,0 +1,76 @@
+The Netlify deploy errored, with the following guidance provided:
+
+Relevant log lines
+- [line 17](#L17) — Netlify prepared pnpm v9 because the environment's pnpm didn't match the expected runtime.
+- [line 18](#L18) — Install step failed.
+- [line 22](#L22) —  ERR_PNPM_LOCKFILE_CONFIG_MISMATCH  Cannot proceed with the frozen installation (the key error).
+- [line 23](#L23) — Suggested fix in the log: "Update your lockfile using 'pnpm install --no-frozen-lockfile'".
+- [line 24](#L24) & [line 25](#L25) — pnpm install failed and the build failed.
+
+Diagnosis and cause
+- Error type: pnpm lockfile/config mismatch during dependency installation.
+- Cause: The repository's pnpm lockfile (pnpm-lock.yaml) is out of sync with the current package configuration (likely an "overrides" entry or other dependency-related change in package.json). Netlify runs a frozen install and pnpm refuses to proceed when the lockfile doesn't match package.json. The log itself recommends running pnpm install with no frozen lockfile to regenerate the lockfile.
+
+Solution (two options — preferred is to update and commit the lockfile)
+
+1) Preferred — update the lockfile locally and commit it (recommended for reproducible builds)
+- Locally run:
+```sh
+corepack enable
+pnpm install --no-frozen-lockfile
+```
+- Inspect changes, then commit and push the updated lockfile (and package.json if it changed):
+```sh
+git add pnpm-lock.yaml package.json
+git commit -m "Update pnpm lockfile to match overrides/package.json"
+git push
+```
+- Trigger a new Netlify build.
+
+Also verify the lockfile is present in the repo root (pnpm-lock.yaml) and was committed before pushing.
+
+2) Immediate Netlify build change (if you cannot update the repo lockfile right now)
+- In Netlify Build settings, change the build command to run pnpm without frozen mode and remove the trailing background ampersand (&). For example:
+```
+corepack enable && pnpm install --no-frozen-lockfile && pnpm run build
+```
+Notes:
+- The logs show the build command originally ends with a trailing "&" which runs install in the background; remove that so the install completes before the build step.
+- After using option 2, prefer to follow option 1: update & commit the lockfile so future builds are deterministic.
+
+Extra checks
+- Confirm pnpm-lock.yaml exists in the repo root and is up-to-date.
+- If you decide to pin a pnpm version for consistency, ensure your local and CI pnpm versions are compatible; otherwise regenerate and commit the lockfile using the pnpm version you intend to use.
+
+This will resolve the ERR_PNPM_LOCKFILE_CONFIG_MISMATCH and allow Netlify to install dependencies and complete the build.
+
+The relevant error logs are:
+
+Line 0: build-image version: ac6eb13fbf000e5c09ad677efd8b7c3c2d0142b6 (noble-new-builds)
+Line 1: buildbot version: 7d1ab19640c2bf7fcc3f970b4cb3025642f999bb
+Line 2: Fetching cached dependencies
+Line 3: Failed to fetch cache, continuing with build
+Line 4: Starting to prepare the repo for build
+Line 5: No cached dependencies found. Cloning fresh repo
+Line 6: git clone --filter=blob:none https://github.com/admin9171-stack/Steakz-Full-Stack
+Line 7: Preparing Git Reference refs/heads/main
+Line 8: Custom publish path detected. Proceeding with the specified path: 'artifacts/steakz/dist/public'
+Line 9: Custom build command detected. Proceeding with the specified command: 'corepack enable && pnpm install --frozen-lockfile=false &
+Line 10: Installing dependencies
+Line 11: mise ~/.config/mise/config.toml tools: python@3.14.3
+Line 12: mise ~/.config/mise/config.toml tools: ruby@3.4.8
+Line 13: mise ~/.config/mise/config.toml tools: go@1.26.2
+Line 14: v20.20.2 is already installed.
+Line 15: Now using node v20.20.2 (npm v10.8.2)
+Line 16: Enabling Node.js Corepack
+Line 17: Found pnpm version (10.30.3) that doesn't match expected (9)
+Preparing pnpm@9 for immediate activation...
+Line 18: pnpm workspaces detected
+Line 19: Failed during stage 'Install dependencies': dependency_installation script returned non-zero exit code: 1
+Line 20: Installing npm packages using pnpm version 9.15.9
+Line 21: Scope: all 9 workspace projects
+Line 22:  ERR_PNPM_LOCKFILE_CONFIG_MISMATCH  Cannot proceed with the frozen installation. The current "overrides" configuration doesn't m
+Line 23: Update your lockfile using "pnpm install --no-frozen-lockfile"
+Line 24: Error during pnpm install
+Line 25: Failing build: Failed to install dependencies
+Line 26: Finished processing build request in 6.539s

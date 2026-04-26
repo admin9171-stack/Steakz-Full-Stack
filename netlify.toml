@@ -1,14 +1,12 @@
 [build]
   base = "."
-  command = "corepack enable && pnpm install --frozen-lockfile=false && pnpm --filter @workspace/steakz run build"
+  command = "corepack enable && corepack prepare pnpm@10.26.1 --activate && pnpm install --no-frozen-lockfile && pnpm --filter @workspace/steakz run build"
   publish = "artifacts/steakz/dist/public"
 
 [build.environment]
   NODE_VERSION = "20"
-  PNPM_VERSION = "9"
   PORT = "5000"
   BASE_PATH = "/"
-  NPM_FLAGS = "--version"
 
 [[redirects]]
   from = "/*"
